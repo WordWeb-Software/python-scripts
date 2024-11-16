@@ -49,7 +49,7 @@ jobs:
           
           # Check if any files exist
           if ($puzzleFiles.Count -eq 0) {
-            Write-Error "No puzzle files generated"
+            Write-Error "No puzzle file generated"
             exit 1
           }
 
@@ -64,12 +64,6 @@ jobs:
         shell: pwsh
         run: |
           $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
-          
-          # Check if any files exist
-          if ($puzzleFiles.Count -eq 0) {
-            Write-Error "No puzzle files generated"
-            exit 1
-          }
           
           # List files with details
           Write-Host "Puzzle Files Found:"
