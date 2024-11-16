@@ -19,7 +19,7 @@ def run_commands(command_list: list[dict], exe_file=None, dump_file=None):
         with open(dump_file, "w") as json_file:
             json.dump(command_dict, json_file, ensure_ascii=False, indent=4)
     input_str = json.dumps(command_dict, ensure_ascii=False).encode('utf-8')
-    result = subprocess.run([exe_file, '-c'], input=input_str, capture_output=True, check=True)
+    return subprocess.run([exe_file, '-c'], input=input_str, capture_output=True, check=True)
 
 
 def convert_lst(file, info='', *, min_score=10, charset='utf-8',

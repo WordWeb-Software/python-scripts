@@ -38,14 +38,17 @@ jobs:
           # Run installer with parameters
           Start-Process -FilePath "$workspace/install.exe" -ArgumentList "-s1", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
-      - name: Run tests
+      - name: Test Direct CCW
+        shell: pwsh
+        run: |
+          # Test direct command line
+          & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "${{ github.workspace }}\\tests\\fill.json"
+
+      - name: Test Python piped dictionary
         shell: pwsh
         run: |
           # Test command line via Python piped json 
           python "${{ github.workspace }}/source/ccw.py"
-          
-          # Test direct command line
-          & 'C:/Program Files (x86)/Crossword Compiler/ccw.exe' -c "${{ github.workspace }}/tests/fill.json"
 
       - name: Check Puzzle Files
         shell: pwsh
