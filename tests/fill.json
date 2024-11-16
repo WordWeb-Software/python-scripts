@@ -1,0 +1,11 @@
+{
+    "version": 1,
+    "commands": [
+        {
+            "command": "fill_grid",
+            "options": {
+                "outfile": "./tests/test_from_json.puz"
+            }
+        }
+    ]
+}

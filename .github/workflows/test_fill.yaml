@@ -1,0 +1,43 @@
+name: Fill Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+                        
+          # Download private code using full URL from secret
+          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}/install.exe"
+          
+          # Run installer with parameters
+          Start-Process -FilePath "${{ github.workspace }}/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
+
+      - name: Run tests
+        run: |
+          # Test command line via Python piped json 
+          python "${{ github.workspace }}/source/ccw.py"
+          
+          # Test direct command line
+          & 'C:\Program Files (x86)\Crossword Compiler\ccw.exe' -c "${{ github.workspace }}/tests/fill.json"
+
+
+      - name: Upload Puzzle File
+        uses: actions/upload-artifact@v4
+        with:
+          name: puzzle-files
+          path: ${{ github.workspace }}/tests/*.puz
