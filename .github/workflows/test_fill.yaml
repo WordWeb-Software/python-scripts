@@ -36,7 +36,7 @@ jobs:
           } 
 
           # Run installer with parameters
-          Start-Process -FilePath "$workspace/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
+          Start-Process -FilePath "$workspace/install.exe" -ArgumentList "-s1", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
       - name: Run tests
         shell: pwsh
