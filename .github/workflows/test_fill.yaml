@@ -23,11 +23,20 @@ jobs:
         shell: pwsh
         run: |
           
-          # Download private code using full URL from secret
-          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}/install.exe"
+          # Download installer
+          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}\install.exe"
           
+          if (Test-Path "${{ github.workspace }}\install.exe") {
+            Write-Host "Installer downloaded successfully."
+            $fileSize = (Get-Item "${{ github.workspace}\install.exe").Length
+            Write-Host "Installer size: $fileSize bytes."
+          } else {
+            Write-Error "Installer download failed."
+            exit 1
+          } 
+
           # Run installer with parameters
-          Start-Process -FilePath "${{ github.workspace }}/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
+          Start-Process -FilePath "${{ github.workspace }}\install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
       - name: Run tests
         shell: pwsh
