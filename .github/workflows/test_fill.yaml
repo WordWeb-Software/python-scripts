@@ -40,12 +40,22 @@ jobs:
 
       - name: Test Direct CCW
         shell: pwsh
+        timeout-minutes: 1
         run: |
           # Test direct command line
           & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "${{ github.workspace }}\\tests\\fill.json"
+          
+          $puzzleFiles = Get-ChildItem -Path "${{ github.workspace }}/tests" -Filter *.puz
+          
+          # Check if any files exist
+          if ($puzzleFiles.Count -eq 0) {
+            Write-Error "No puzzle files generated"
+            exit 1
+          }
 
       - name: Test Python piped dictionary
         shell: pwsh
+        timeout-minutes: 1
         run: |
           # Test command line via Python piped json 
           python "${{ github.workspace }}/source/ccw.py"
