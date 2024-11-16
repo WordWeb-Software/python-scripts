@@ -24,9 +24,9 @@ jobs:
         run: |
           
           # Download installer
-          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}\install.exe"
+          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}/install.exe"
           
-          if (Test-Path "${{ github.workspace }}\install.exe") {
+          if (Test-Path "${{ github.workspace }}/install.exe") {
             Write-Host "Installer downloaded successfully."
             $fileSize = (Get-Item "${{ github.workspace}/install.exe").Length
             Write-Host "Installer size: $fileSize bytes."
