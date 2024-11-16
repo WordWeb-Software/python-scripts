@@ -48,6 +48,8 @@ def fill(outfile, exe_file=None):
 if __name__ == '__main__':
     script_dir = Path(__file__).resolve().parent
     test_puz_path = script_dir.parent / 'tests' / 'test_from_python.puz'
-    fill(str(test_puz_path.absolute()))
+    result = fill(str(test_puz_path.absolute()))
+    print(result.stdout)
+    print(result.stderr)
 
     # convert_lst(r'z:\wordlist.txt', outfile=r'z:\wordlist.lst', min_score=10, charset='utf-8', filter=True)
