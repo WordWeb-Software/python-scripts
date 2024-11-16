@@ -43,9 +43,9 @@ jobs:
         timeout-minutes: 1
         run: |
           # Test direct command line
-          & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "${{ github.workspace }}\\tests\\fill.json"
+          & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "tests\\fill.json"
           
-          $puzzleFiles = Get-ChildItem -Path "${{ github.workspace }}/tests" -Filter *.puz
+          $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
           
           # Check if any files exist
           if ($puzzleFiles.Count -eq 0) {
@@ -58,12 +58,12 @@ jobs:
         timeout-minutes: 1
         run: |
           # Test command line via Python piped json 
-          python "${{ github.workspace }}/source/ccw.py"
+          python source/ccw.py
 
       - name: Check Puzzle Files
         shell: pwsh
         run: |
-          $puzzleFiles = Get-ChildItem -Path "${{ github.workspace }}/tests" -Filter *.puz
+          $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
           
           # Check if any files exist
           if ($puzzleFiles.Count -eq 0) {
@@ -79,4 +79,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: puzzle-files
-          path: ${{ github.workspace }}/tests/*.puz
+          path: tests/*.puz
