@@ -8,10 +8,11 @@ on:
 
 jobs:
   test:
+    environment: ccw_tests
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -19,6 +20,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
+        shell: pwsh
         run: |
           
           # Download private code using full URL from secret
@@ -28,6 +30,7 @@ jobs:
           Start-Process -FilePath "${{ github.workspace }}/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
       - name: Run tests
+        shell: pwsh
         run: |
           # Test command line via Python piped json 
           python "${{ github.workspace }}/source/ccw.py"
@@ -35,18 +38,20 @@ jobs:
           # Test direct command line
           & 'C:\Program Files (x86)\Crossword Compiler\ccw.exe' -c "${{ github.workspace }}/tests/fill.json"
 
-      - name: List Puzzle Files
-        run: |
-          # List all .puz files for logging
-          Get-ChildItem -Path "${{ github.workspace }}/tests" -Filter *.puz | Format-Table Name, Length, LastWriteTime
-
-      - name: Verify Puzzle Files
+      - name: Check Puzzle Files
+        shell: pwsh
         run: |
           $puzzleFiles = Get-ChildItem -Path "${{ github.workspace }}/tests" -Filter *.puz
+          
+          # Check if any files exist
           if ($puzzleFiles.Count -eq 0) {
             Write-Error "No puzzle files generated"
             exit 1
           }
+          
+          # List files with details
+          Write-Host "Puzzle Files Found:"
+          $puzzleFiles | Format-Table Name, Length, LastWriteTime 
 
       - name: Upload Puzzle File
         uses: actions/upload-artifact@v4
