@@ -24,11 +24,12 @@ jobs:
         run: |
           
           # Download installer
-          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "${{ github.workspace }}/install.exe"
+          $workspace = "${{ github.workspace }}"
+          Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "$workspace/install.exe"
           
-          if (Test-Path "${{ github.workspace }}/install.exe") {
+          if (Test-Path "$workspace/install.exe") {
             Write-Host "Installer downloaded successfully."
-            $fileSize = (Get-Item "${{ github.workspace}/install.exe").Length
+            $fileSize = (Get-Item "$workspace/install.exe").Length
             Write-Host "Installer size: $fileSize bytes."
           } else {
             Write-Error "Installer download failed."
@@ -36,7 +37,7 @@ jobs:
           } 
 
           # Run installer with parameters
-          Start-Process -FilePath "${{ github.workspace }}/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
+          Start-Process -FilePath "$workspace/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
       - name: Run tests
         shell: pwsh
