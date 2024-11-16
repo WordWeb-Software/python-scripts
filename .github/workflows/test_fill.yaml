@@ -28,7 +28,7 @@ jobs:
           
           if (Test-Path "${{ github.workspace }}\install.exe") {
             Write-Host "Installer downloaded successfully."
-            $fileSize = (Get-Item "${{ github.workspace}\install.exe").Length
+            $fileSize = (Get-Item "${{ github.workspace}/install.exe").Length
             Write-Host "Installer size: $fileSize bytes."
           } else {
             Write-Error "Installer download failed."
@@ -36,7 +36,7 @@ jobs:
           } 
 
           # Run installer with parameters
-          Start-Process -FilePath "${{ github.workspace }}\install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
+          Start-Process -FilePath "${{ github.workspace }}/install.exe" -ArgumentList "-s", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
       - name: Run tests
         shell: pwsh
@@ -45,7 +45,7 @@ jobs:
           python "${{ github.workspace }}/source/ccw.py"
           
           # Test direct command line
-          & 'C:\Program Files (x86)\Crossword Compiler\ccw.exe' -c "${{ github.workspace }}/tests/fill.json"
+          & 'C:/Program Files (x86)/Crossword Compiler/ccw.exe' -c "${{ github.workspace }}/tests/fill.json"
 
       - name: Check Puzzle Files
         shell: pwsh
