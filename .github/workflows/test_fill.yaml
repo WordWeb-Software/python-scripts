@@ -44,8 +44,6 @@ jobs:
         run: |
           # Test command line via Python piped json 
           python source/ccw.py
-
-          dir -r
           
           $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
           
@@ -62,7 +60,6 @@ jobs:
         run: |
           # Test direct command line
           & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "tests\\fill.json"
-          dir -r
 
       - name: Check Puzzle Files
         shell: pwsh
