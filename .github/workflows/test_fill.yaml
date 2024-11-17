@@ -55,13 +55,6 @@ jobs:
             exit 1
           }
 
-          # Check for Astronomy.lst
-          $listFiles = Get-ChildItem -Path "tests" -Filter Astronomy.lst
-          if ($listFiles.Count -eq 0) {
-            Write-Error "Astronomy.lst file not generated"
-            exit 1
-          }
-
       - name: Test Direct CCW
         shell: pwsh
         timeout-minutes: 1

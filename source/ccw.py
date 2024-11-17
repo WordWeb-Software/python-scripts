@@ -76,8 +76,11 @@ def test_convert_list():
     script_dir = Path(__file__).resolve().parent
     test_txt_path = script_dir.parent / 'tests' / 'Astronomy.txt'
     convert_lst(test_txt_path.absolute())
+    assert (test_txt_path.parent / 'Astronomy.lst').exists()
+    assert (test_txt_path.parent / 'Astronomy.lst').stat().st_size == 133556
 
 
 if __name__ == '__main__':
     test_fill()
+    test_convert_list()
     # convert_lst(r'z:\wordlist.txt', outfile=r'z:\wordlist.lst', min_score=10, charset='utf-8', filter=True)
