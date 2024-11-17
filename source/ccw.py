@@ -49,7 +49,7 @@ if __name__ == '__main__':
     script_dir = Path(__file__).resolve().parent
     test_puz_path = script_dir.parent / 'tests' / 'test_from_python.puz'
     result = fill(str(test_puz_path.absolute()))
-    print(result.stdout)
-    print(result.stderr)
+    print(result.stdout.decode('utf-8'))
+    print(result.stderr.decode('utf-8'))
 
     # convert_lst(r'z:\wordlist.txt', outfile=r'z:\wordlist.lst', min_score=10, charset='utf-8', filter=True)

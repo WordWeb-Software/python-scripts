@@ -38,12 +38,14 @@ jobs:
           # Run installer with parameters
           Start-Process -FilePath "$workspace/install.exe" -ArgumentList "-s1", "-lic=${{ secrets.LICENCE }}", "-email=${{ secrets.EMAIL }}" -Wait -PassThru
 
-      - name: Test Direct CCW
+      - name: Test Python piped dictionary
         shell: pwsh
         timeout-minutes: 1
         run: |
-          # Test direct command line
-          & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "tests\\fill.json"
+          # Test command line via Python piped json 
+          python source/ccw.py
+
+          dir -r
           
           $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
           
@@ -53,12 +55,14 @@ jobs:
             exit 1
           }
 
-      - name: Test Python piped dictionary
+
+      - name: Test Direct CCW
         shell: pwsh
         timeout-minutes: 1
         run: |
-          # Test command line via Python piped json 
-          python source/ccw.py
+          # Test direct command line
+          & 'C:\\Program Files (x86)\\Crossword Compiler\\ccw.exe' -c "tests\\fill.json"
+          dir -r
 
       - name: Check Puzzle Files
         shell: pwsh
