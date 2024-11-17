@@ -43,7 +43,7 @@ jobs:
         timeout-minutes: 1
         run: |
           # Test command line via Python piped json 
-          python source/ccw.py
+          pytest source\ccw.py
           
           $puzzleFiles = Get-ChildItem -Path "tests" -Filter *.puz
           
@@ -53,6 +53,12 @@ jobs:
             exit 1
           }
 
+          # Check for Astronomy.lst
+          $listFiles = Get-ChildItem -Path "tests" -Filter Astronomy.lst
+          if ($listFiles.Count -eq 0) {
+            Write-Error "Astronomy.lst file not generated"
+            exit 1
+          }
 
       - name: Test Direct CCW
         shell: pwsh
