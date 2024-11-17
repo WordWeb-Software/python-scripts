@@ -22,6 +22,8 @@ jobs:
         shell: pwsh
         run: |
           
+          pip install pytest
+          
           # Download installer
           $workspace = "${{ github.workspace }}"
           Invoke-WebRequest -Uri "${{ secrets.DOWNLOAD_URL }}" -OutFile "$workspace/install.exe"
